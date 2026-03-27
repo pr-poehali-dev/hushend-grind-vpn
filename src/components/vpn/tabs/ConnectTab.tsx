@@ -13,38 +13,78 @@ export default function ConnectTab({ connected, connecting, handleConnect }: Con
       <p className="text-xs mb-6" style={{ color: "rgba(255,255,255,0.4)" }}>Скрытый режим обхода блокировок</p>
 
       <div className="flex flex-col items-center mb-8">
-        <div className="relative" style={{ width: 128, height: 128 }}>
+        <div className="relative flex items-center justify-center" style={{ width: 168, height: 168 }}>
+          {/* Атмосферное свечение */}
+          <div className="absolute rounded-full animate-ambient" style={{
+            width: 168, height: 168,
+            background: connecting
+              ? "radial-gradient(circle, rgba(0,200,255,0.14) 0%, rgba(0,160,255,0.05) 50%, transparent 70%)"
+              : connected
+                ? "radial-gradient(circle, rgba(0,210,255,0.2) 0%, rgba(0,160,255,0.08) 50%, transparent 70%)"
+                : "radial-gradient(circle, rgba(0,180,255,0.08) 0%, transparent 65%)",
+          }} />
+          {/* SVG орбиты */}
           {connecting && (
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="orbit-tail1c absolute w-1.5 h-1.5 rounded-full" style={{ background: "#00C8FF" }} />
-              <div className="orbit-tail1b absolute w-2 h-2 rounded-full" style={{ background: "#00C8FF" }} />
-              <div className="orbit-tail1a absolute w-2.5 h-2.5 rounded-full" style={{ background: "#00C8FF" }} />
-              <div className="orbit-dot1 absolute w-3 h-3 rounded-full" style={{ background: "#00E5FF", boxShadow: "0 0 8px #00E5FF, 0 0 16px rgba(0,229,255,0.6)" }} />
-              <div className="orbit-tail2c absolute w-1.5 h-1.5 rounded-full" style={{ background: "#00C8FF" }} />
-              <div className="orbit-tail2b absolute w-2 h-2 rounded-full" style={{ background: "#00C8FF" }} />
-              <div className="orbit-tail2a absolute w-2.5 h-2.5 rounded-full" style={{ background: "#00C8FF" }} />
-              <div className="orbit-dot2 absolute w-3 h-3 rounded-full" style={{ background: "#00E5FF", boxShadow: "0 0 8px #00E5FF, 0 0 16px rgba(0,229,255,0.6)" }} />
-            </div>
+            <>
+              <svg width={152} height={152} viewBox="0 0 152 152" className="orbit-svg-1" style={{ position: "absolute" }}>
+                <defs>
+                  <linearGradient id="cometC1" gradientUnits="userSpaceOnUse" x1="146" y1="76" x2="76" y2="6">
+                    <stop offset="0%" stopColor="#00E5FF" stopOpacity="0" />
+                    <stop offset="60%" stopColor="#00CCFF" stopOpacity="0.5" />
+                    <stop offset="100%" stopColor="#00F0FF" stopOpacity="1" />
+                  </linearGradient>
+                  <filter id="blurC1"><feGaussianBlur stdDeviation="1" /></filter>
+                </defs>
+                <circle cx="76" cy="76" r="70" fill="none" stroke="rgba(0,200,255,0.06)" strokeWidth="1" />
+                <circle cx="76" cy="76" r="70" fill="none" stroke="url(#cometC1)" strokeWidth="2.5"
+                  strokeDasharray={`${2 * Math.PI * 70 * 0.34} ${2 * Math.PI * 70 * 0.66}`}
+                  strokeLinecap="round" filter="url(#blurC1)" opacity="0.9" />
+                <circle cx="146" cy="76" r="3.5" fill="#00E8FF" filter="url(#blurC1)" opacity="0.95" />
+                <circle cx="146" cy="76" r="2" fill="white" opacity="0.9" />
+              </svg>
+              <svg width={152} height={152} viewBox="0 0 152 152" className="orbit-svg-2" style={{ position: "absolute" }}>
+                <defs>
+                  <linearGradient id="cometC2" gradientUnits="userSpaceOnUse" x1="6" y1="76" x2="76" y2="146">
+                    <stop offset="0%" stopColor="#00E5FF" stopOpacity="0" />
+                    <stop offset="60%" stopColor="#00CCFF" stopOpacity="0.5" />
+                    <stop offset="100%" stopColor="#00F0FF" stopOpacity="1" />
+                  </linearGradient>
+                  <filter id="blurC2"><feGaussianBlur stdDeviation="1" /></filter>
+                </defs>
+                <circle cx="76" cy="76" r="70" fill="none" stroke="rgba(0,200,255,0.06)" strokeWidth="1" />
+                <circle cx="76" cy="76" r="70" fill="none" stroke="url(#cometC2)" strokeWidth="2.5"
+                  strokeDasharray={`${2 * Math.PI * 70 * 0.34} ${2 * Math.PI * 70 * 0.66}`}
+                  strokeLinecap="round" filter="url(#blurC2)" opacity="0.9" />
+                <circle cx="6" cy="76" r="3.5" fill="#00E8FF" filter="url(#blurC2)" opacity="0.95" />
+                <circle cx="6" cy="76" r="2" fill="white" opacity="0.9" />
+              </svg>
+            </>
           )}
           {connected && (
             <>
-              <div className="absolute inset-0 rounded-full animate-pulse-ring2" style={{ background: "radial-gradient(circle, rgba(0,200,255,0.18), transparent)" }} />
-              <div className="absolute inset-0 rounded-full animate-pulse-ring" style={{ background: "radial-gradient(circle, rgba(0,229,255,0.28), transparent)" }} />
+              <div className="absolute rounded-full animate-pulse-ring" style={{ width: 144, height: 144, border: "1px solid rgba(0,210,255,0.3)" }} />
+              <div className="absolute rounded-full animate-pulse-ring2" style={{ width: 144, height: 144, border: "1px solid rgba(0,180,255,0.18)" }} />
             </>
           )}
           <button
             onClick={handleConnect}
-            className={`relative w-full h-full rounded-full flex flex-col items-center justify-center transition-all duration-500 ${connected ? "glow-button-cyan" : "glow-button-idle"}`}
+            className={`relative rounded-full flex flex-col items-center justify-center transition-all duration-500 ${connected ? "glow-button-cyan" : "glow-button-idle"}`}
+            style={{ width: 128, height: 128 }}
           >
+            <div className="absolute inset-0 rounded-full" style={{
+              background: connected
+                ? "radial-gradient(circle at 40% 35%, rgba(255,255,255,0.18) 0%, transparent 60%)"
+                : "radial-gradient(circle at 40% 35%, rgba(0,220,255,0.07) 0%, transparent 60%)",
+            }} />
             {connecting ? (
-              <span className="text-xs font-bold tracking-widest" style={{ color: "rgba(0,229,255,0.8)" }}>...</span>
+              <span className="relative text-xs font-bold tracking-widest" style={{ color: "rgba(0,229,255,0.9)", letterSpacing: "0.18em" }}>ЗАПУСК</span>
             ) : (
-              <>
-                <Icon name={connected ? "ShieldCheck" : "Power"} size={30} color={connected ? "white" : "rgba(0,200,255,0.7)"} />
-                <span className="font-black text-xs tracking-wider mt-1" style={{ color: connected ? "white" : "rgba(0,200,255,0.65)" }}>
+              <div className="relative flex flex-col items-center gap-1">
+                <Icon name={connected ? "ShieldCheck" : "Power"} size={30} color={connected ? "rgba(255,255,255,0.95)" : "rgba(0,210,255,0.72)"} />
+                <span className="font-black text-xs tracking-widest" style={{ color: connected ? "rgba(255,255,255,0.9)" : "rgba(0,200,255,0.6)" }}>
                   {connected ? "ОТКЛЮЧИТЬ" : "СТАРТ"}
                 </span>
-              </>
+              </div>
             )}
           </button>
         </div>
