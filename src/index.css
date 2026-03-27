@@ -292,6 +292,141 @@
   animation: bar-grow 1s ease-out forwards;
 }
 
+/* Орбитальные точки */
+@keyframes orbit-dot1 {
+  0% {
+    transform: rotate(0deg) translateX(56px) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(360deg) translateX(56px) rotate(-360deg);
+    opacity: 1;
+  }
+}
+@keyframes orbit-dot2 {
+  0% {
+    transform: rotate(180deg) translateX(56px) rotate(-180deg);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(540deg) translateX(56px) rotate(-540deg);
+    opacity: 1;
+  }
+}
+@keyframes orbit-tail1a {
+  0% {
+    transform: rotate(-20deg) translateX(56px) rotate(20deg);
+    opacity: 0.55;
+  }
+  100% {
+    transform: rotate(340deg) translateX(56px) rotate(-340deg);
+    opacity: 0.55;
+  }
+}
+@keyframes orbit-tail1b {
+  0% {
+    transform: rotate(-40deg) translateX(56px) rotate(40deg);
+    opacity: 0.25;
+  }
+  100% {
+    transform: rotate(320deg) translateX(56px) rotate(-320deg);
+    opacity: 0.25;
+  }
+}
+@keyframes orbit-tail1c {
+  0% {
+    transform: rotate(-60deg) translateX(56px) rotate(60deg);
+    opacity: 0.08;
+  }
+  100% {
+    transform: rotate(300deg) translateX(56px) rotate(-300deg);
+    opacity: 0.08;
+  }
+}
+@keyframes orbit-tail2a {
+  0% {
+    transform: rotate(160deg) translateX(56px) rotate(-160deg);
+    opacity: 0.55;
+  }
+  100% {
+    transform: rotate(520deg) translateX(56px) rotate(-520deg);
+    opacity: 0.55;
+  }
+}
+@keyframes orbit-tail2b {
+  0% {
+    transform: rotate(140deg) translateX(56px) rotate(-140deg);
+    opacity: 0.25;
+  }
+  100% {
+    transform: rotate(500deg) translateX(56px) rotate(-500deg);
+    opacity: 0.25;
+  }
+}
+@keyframes orbit-tail2c {
+  0% {
+    transform: rotate(120deg) translateX(56px) rotate(-120deg);
+    opacity: 0.08;
+  }
+  100% {
+    transform: rotate(480deg) translateX(56px) rotate(-480deg);
+    opacity: 0.08;
+  }
+}
+
+.orbit-dot1 {
+  animation: orbit-dot1 1.4s linear infinite;
+}
+.orbit-dot2 {
+  animation: orbit-dot2 1.4s linear infinite;
+}
+.orbit-tail1a {
+  animation: orbit-tail1a 1.4s linear infinite;
+}
+.orbit-tail1b {
+  animation: orbit-tail1b 1.4s linear infinite;
+}
+.orbit-tail1c {
+  animation: orbit-tail1c 1.4s linear infinite;
+}
+.orbit-tail2a {
+  animation: orbit-tail2a 1.4s linear infinite;
+}
+.orbit-tail2b {
+  animation: orbit-tail2b 1.4s linear infinite;
+}
+.orbit-tail2c {
+  animation: orbit-tail2c 1.4s linear infinite;
+}
+
+.glow-button-idle {
+  background: rgba(0, 200, 255, 0.08);
+  border: 1.5px solid rgba(0, 200, 255, 0.25);
+  box-shadow:
+    0 0 20px rgba(0, 200, 255, 0.08),
+    inset 0 0 20px rgba(0, 200, 255, 0.04);
+  backdrop-filter: blur(8px);
+  transition: all 0.3s ease;
+}
+.glow-button-idle:hover {
+  background: rgba(0, 200, 255, 0.14);
+  box-shadow:
+    0 0 35px rgba(0, 200, 255, 0.18),
+    inset 0 0 25px rgba(0, 200, 255, 0.08);
+}
+.glow-button-cyan {
+  background: linear-gradient(
+    135deg,
+    rgba(0, 190, 255, 0.85),
+    rgba(0, 140, 255, 0.9)
+  );
+  box-shadow:
+    0 0 40px rgba(0, 200, 255, 0.55),
+    0 0 80px rgba(0, 160, 255, 0.25),
+    inset 0 0 20px rgba(255, 255, 255, 0.1);
+  transition: all 0.4s ease;
+}
+
 /* Mobile phone frame */
 .phone-frame {
   width: 390px;

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Icon from "@/components/ui/icon";
 
 type Tab = "home" | "connect" | "servers" | "stats" | "settings" | "support";
@@ -65,6 +66,15 @@ export default function TabContent({
   handleConnect,
   formatTime,
 }: TabContentProps) {
+  const [serverFilter, setServerFilter] = useState("Все");
+
+  const filteredServers = SERVERS.filter((s) => {
+    if (serverFilter === "Быстрые") return s.ping < 50;
+    if (serverFilter === "Ближние") return s.ping < 60;
+    if (serverFilter === "Premium") return s.premium;
+    return true;
+  });
+
   return (
     <div className="flex-1 overflow-y-auto px-5" style={{ scrollbarWidth: "none" }}>
 
@@ -72,30 +82,47 @@ export default function TabContent({
       {tab === "home" && (
         <div className="animate-fade-slide-up">
           <div className="flex flex-col items-center py-6">
-            <div className="relative mb-6">
+            <div className="relative mb-6" style={{ width: 148, height: 148 }}>
+
+              {/* Орбитальные точки при подключении */}
+              {connecting && (
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  {/* Хвосты точки 1 */}
+                  <div className="orbit-tail1c absolute w-2 h-2 rounded-full" style={{ background: "#00C8FF" }} />
+                  <div className="orbit-tail1b absolute w-2.5 h-2.5 rounded-full" style={{ background: "#00C8FF" }} />
+                  <div className="orbit-tail1a absolute w-3 h-3 rounded-full" style={{ background: "#00C8FF" }} />
+                  {/* Точка 1 */}
+                  <div className="orbit-dot1 absolute w-3.5 h-3.5 rounded-full" style={{ background: "#00E5FF", boxShadow: "0 0 10px #00E5FF, 0 0 20px rgba(0,229,255,0.6)" }} />
+                  {/* Хвосты точки 2 */}
+                  <div className="orbit-tail2c absolute w-2 h-2 rounded-full" style={{ background: "#00C8FF" }} />
+                  <div className="orbit-tail2b absolute w-2.5 h-2.5 rounded-full" style={{ background: "#00C8FF" }} />
+                  <div className="orbit-tail2a absolute w-3 h-3 rounded-full" style={{ background: "#00C8FF" }} />
+                  {/* Точка 2 */}
+                  <div className="orbit-dot2 absolute w-3.5 h-3.5 rounded-full" style={{ background: "#00E5FF", boxShadow: "0 0 10px #00E5FF, 0 0 20px rgba(0,229,255,0.6)" }} />
+                </div>
+              )}
+
+              {/* Свечение при подключённом состоянии */}
               {connected && (
                 <>
-                  <div className="absolute inset-0 rounded-full animate-pulse-ring2" style={{ background: "radial-gradient(circle, rgba(0,255,136,0.15), transparent)" }} />
-                  <div className="absolute inset-0 rounded-full animate-pulse-ring" style={{ background: "radial-gradient(circle, rgba(0,229,255,0.2), transparent)" }} />
+                  <div className="absolute inset-0 rounded-full animate-pulse-ring2" style={{ background: "radial-gradient(circle, rgba(0,200,255,0.18), transparent)" }} />
+                  <div className="absolute inset-0 rounded-full animate-pulse-ring" style={{ background: "radial-gradient(circle, rgba(0,229,255,0.28), transparent)" }} />
                 </>
               )}
-              {connecting && (
-                <div className="absolute inset-0 rounded-full animate-pulse-ring" style={{ background: "radial-gradient(circle, rgba(77,159,255,0.2), transparent)" }} />
-              )}
+
               <button
                 onClick={handleConnect}
-                className={`relative w-40 h-40 rounded-full flex flex-col items-center justify-center transition-all duration-500 ${connected ? "glow-button-connected" : "glow-button"}`}
+                className={`relative w-full h-full rounded-full flex flex-col items-center justify-center transition-all duration-500 ${connected ? "glow-button-cyan" : "glow-button-idle"}`}
                 style={{ fontFamily: "'Exo 2', sans-serif" }}
               >
                 {connecting ? (
-                  <div className="flex flex-col items-center gap-2">
-                    <div className="w-8 h-8 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    <span className="text-white text-xs font-bold tracking-widest">ПОДКЛЮЧЕНИЕ</span>
+                  <div className="flex flex-col items-center gap-1">
+                    <span className="text-xs font-bold tracking-widest" style={{ color: "rgba(0,229,255,0.8)" }}>ПОДКЛЮЧЕНИЕ</span>
                   </div>
                 ) : (
                   <>
-                    <Icon name={connected ? "ShieldCheck" : "Power"} size={36} color="white" />
-                    <span className="text-white font-black text-sm tracking-widest mt-2">
+                    <Icon name={connected ? "ShieldCheck" : "Power"} size={34} color={connected ? "white" : "rgba(0,200,255,0.7)"} />
+                    <span className="font-black text-sm tracking-widest mt-2" style={{ color: connected ? "white" : "rgba(0,200,255,0.65)" }}>
                       {connected ? "ОТКЛЮЧИТЬ" : "ПОДКЛЮЧИТЬ"}
                     </span>
                   </>
@@ -184,23 +211,35 @@ export default function TabContent({
           <p className="text-xs mb-6" style={{ color: "rgba(255,255,255,0.4)" }}>Скрытый режим обхода блокировок</p>
 
           <div className="flex flex-col items-center mb-8">
-            <div className="relative">
+            <div className="relative" style={{ width: 128, height: 128 }}>
+              {connecting && (
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div className="orbit-tail1c absolute w-1.5 h-1.5 rounded-full" style={{ background: "#00C8FF" }} />
+                  <div className="orbit-tail1b absolute w-2 h-2 rounded-full" style={{ background: "#00C8FF" }} />
+                  <div className="orbit-tail1a absolute w-2.5 h-2.5 rounded-full" style={{ background: "#00C8FF" }} />
+                  <div className="orbit-dot1 absolute w-3 h-3 rounded-full" style={{ background: "#00E5FF", boxShadow: "0 0 8px #00E5FF, 0 0 16px rgba(0,229,255,0.6)" }} />
+                  <div className="orbit-tail2c absolute w-1.5 h-1.5 rounded-full" style={{ background: "#00C8FF" }} />
+                  <div className="orbit-tail2b absolute w-2 h-2 rounded-full" style={{ background: "#00C8FF" }} />
+                  <div className="orbit-tail2a absolute w-2.5 h-2.5 rounded-full" style={{ background: "#00C8FF" }} />
+                  <div className="orbit-dot2 absolute w-3 h-3 rounded-full" style={{ background: "#00E5FF", boxShadow: "0 0 8px #00E5FF, 0 0 16px rgba(0,229,255,0.6)" }} />
+                </div>
+              )}
               {connected && (
                 <>
-                  <div className="absolute inset-0 rounded-full animate-pulse-ring2" style={{ background: "radial-gradient(circle, rgba(0,255,136,0.1), transparent)" }} />
-                  <div className="absolute inset-0 rounded-full animate-pulse-ring" style={{ background: "radial-gradient(circle, rgba(0,229,255,0.15), transparent)" }} />
+                  <div className="absolute inset-0 rounded-full animate-pulse-ring2" style={{ background: "radial-gradient(circle, rgba(0,200,255,0.18), transparent)" }} />
+                  <div className="absolute inset-0 rounded-full animate-pulse-ring" style={{ background: "radial-gradient(circle, rgba(0,229,255,0.28), transparent)" }} />
                 </>
               )}
               <button
                 onClick={handleConnect}
-                className={`relative w-32 h-32 rounded-full flex flex-col items-center justify-center transition-all duration-500 ${connected ? "glow-button-connected" : "glow-button"}`}
+                className={`relative w-full h-full rounded-full flex flex-col items-center justify-center transition-all duration-500 ${connected ? "glow-button-cyan" : "glow-button-idle"}`}
               >
                 {connecting ? (
-                  <div className="w-7 h-7 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <span className="text-xs font-bold tracking-widest" style={{ color: "rgba(0,229,255,0.8)" }}>...</span>
                 ) : (
                   <>
-                    <Icon name={connected ? "ShieldCheck" : "Power"} size={32} color="white" />
-                    <span className="text-white font-black text-xs tracking-wider mt-1">
+                    <Icon name={connected ? "ShieldCheck" : "Power"} size={30} color={connected ? "white" : "rgba(0,200,255,0.7)"} />
+                    <span className="font-black text-xs tracking-wider mt-1" style={{ color: connected ? "white" : "rgba(0,200,255,0.65)" }}>
                       {connected ? "ОТКЛЮЧИТЬ" : "СТАРТ"}
                     </span>
                   </>
@@ -260,18 +299,36 @@ export default function TabContent({
 
           <div className="flex gap-2 mb-5 overflow-x-auto pb-1" style={{ scrollbarWidth: "none" }}>
             {["Все", "Быстрые", "Ближние", "Premium"].map((f) => (
-              <button key={f} className="whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-bold transition-all"
-                style={{ background: f === "Все" ? "linear-gradient(135deg, #4D9FFF, #9B59FF)" : "rgba(255,255,255,0.06)", color: "white", border: "1px solid rgba(255,255,255,0.08)" }}>
+              <button
+                key={f}
+                onClick={() => setServerFilter(f)}
+                className="whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-bold transition-all"
+                style={{
+                  background: serverFilter === f ? "linear-gradient(135deg, #4D9FFF, #9B59FF)" : "rgba(255,255,255,0.06)",
+                  color: "white",
+                  border: serverFilter === f ? "1px solid transparent" : "1px solid rgba(255,255,255,0.08)",
+                  transform: serverFilter === f ? "scale(1.05)" : "scale(1)",
+                }}
+              >
                 {f}
               </button>
             ))}
           </div>
 
+          {filteredServers.length === 0 && (
+            <div className="text-center py-10" style={{ color: "rgba(255,255,255,0.3)" }}>
+              <Icon name="ServerOff" size={32} color="rgba(255,255,255,0.15)" />
+              <div className="text-sm mt-3">Нет серверов в этой категории</div>
+            </div>
+          )}
+
           <div className="space-y-2">
-            {SERVERS.map((server) => (
+            {filteredServers.map((server) => (
               <div
                 key={server.id}
                 onClick={() => { setSelectedServer(server); setTab("home"); }}
+                role="button"
+                tabIndex={0}
                 className={`server-item glass-card rounded-xl px-4 py-3 flex items-center gap-3 ${selectedServer.id === server.id ? "neon-border" : "border border-transparent"}`}
                 style={selectedServer.id === server.id ? { borderColor: "rgba(0,229,255,0.3)" } : {}}
               >
